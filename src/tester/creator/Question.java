@@ -17,6 +17,16 @@ public class Question implements Serializable {
     private String question;
     private HashMap<Integer, Answer> answers;
 
+    public Question(int id, String question, HashMap<Integer, Answer> answers) {
+        this.id = id;
+        this.question = question;
+        this.answers = answers;
+    }
+
+    public Question() {
+    }
+
+    
     public HashMap<Integer, Answer> getAnswers() {
         return answers;
     }

@@ -18,6 +18,15 @@ public class Test implements Serializable {
     private HashMap<Integer, Question> mapOfQuestions;
     private int totalQuestionsCount;
     private int questionToUserCount;
+    private int currentQuestionIndex;
+
+    public int getCurrentQuestionIndex() {
+        return currentQuestionIndex;
+    }
+
+    public void setCurrentQuestionIndex(int currentQuestionIndex) {
+        this.currentQuestionIndex = currentQuestionIndex;
+    }
 
     public int getId() {
         return id;

@@ -16,6 +16,13 @@ public class Answer implements Serializable {
     private String answer;
     private boolean isTrue;
 
+    public Answer(int id, String answer, boolean isTrue) {
+        this.id = id;
+        this.answer = answer;
+        this.isTrue = isTrue;
+    }
+
+    
     public String getAnswer() {
         return answer;
     }
