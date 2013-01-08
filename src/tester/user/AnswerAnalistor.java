@@ -26,10 +26,15 @@ public class AnswerAnalistor {
      * @param test - test, that user is goes
      * @return
      */
-    public int analizeAnwers(HashMap<Integer, Integer> answers, Test test) {
+    public void analizeAnwers(HashMap<Integer, Integer> answers, Test test) {
         for (int i=0; i<=answers.size(); i++) {
-
+            if (test.getMapOfQuestions().get(i).getAnswers().get(answers.get(i)).isIsTrue()) {
+                countOfUserRightAnswers++;
+            }
         }
-        return 0;
+    }
+
+    public double calculateResult() {
+
     }
 }
