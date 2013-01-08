@@ -10,8 +10,10 @@
  */
 package tester.creator;
 
+import java.io.File;
 import java.util.ArrayList;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import tester.creator.listeners.ICreateNewTestListener;
@@ -120,7 +122,11 @@ public class UI extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         createNewTest = new javax.swing.JMenuItem();
         openTest = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         saveTest = new javax.swing.JMenuItem();
+        saveAsTest = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        exitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Создатель тестов");
@@ -230,7 +236,7 @@ public class UI extends javax.swing.JFrame {
         questionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Запитання"));
 
         questionTextArea.setColumns(20);
-        questionTextArea.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        questionTextArea.setFont(new java.awt.Font("Arial", 0, 12));
         questionTextArea.setLineWrap(true);
         questionTextArea.setRows(5);
         questionTextArea.setWrapStyleWord(true);
@@ -448,7 +454,7 @@ public class UI extends javax.swing.JFrame {
         jMenu1.setText("Файл");
 
         createNewTest.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
-        createNewTest.setText("Створити новий тест");
+        createNewTest.setText("Створити тест");
         createNewTest.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createNewTestActionPerformed(evt);
@@ -457,12 +463,42 @@ public class UI extends javax.swing.JFrame {
         jMenu1.add(createNewTest);
 
         openTest.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
-        openTest.setText("Відкрити тест");
+        openTest.setText("Відкрити");
+        openTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openTestActionPerformed(evt);
+            }
+        });
         jMenu1.add(openTest);
+        jMenu1.add(jSeparator1);
 
         saveTest.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        saveTest.setText("Зберегти тест");
+        saveTest.setText("Зберегти");
+        saveTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveTestActionPerformed(evt);
+            }
+        });
         jMenu1.add(saveTest);
+
+        saveAsTest.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        saveAsTest.setText("Зберегти як");
+        saveAsTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsTestActionPerformed(evt);
+            }
+        });
+        jMenu1.add(saveAsTest);
+        jMenu1.add(jSeparator2);
+
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        exitMenuItem.setText("Вийти");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(exitMenuItem);
 
         jMenuBar1.add(jMenu1);
 
@@ -496,8 +532,8 @@ private void createNewTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     new UICreateNewTest(new ICreateNewTestListener() {
 
         @Override
-        public void testCreated(String testName, String fileLocation) {
-            Test test = controller.createTest(fileLocation, testName);
+        public void testCreated(String testName) {
+            Test test = controller.createTest(testName);
             updateUIFromTest(test);
             questionPanel.setVisible(true);
             jPanel1.setVisible(true);
@@ -506,9 +542,11 @@ private void createNewTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 }//GEN-LAST:event_createNewTestActionPerformed
 
 private void addAnswerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAnswerButtonActionPerformed
-    getTestFromUI();
-    Test test = controller.addAnswerToQuestion();
-    updateUIFromTest(test);
+    if (!answPanel.get(7).isVisible()) {
+        getTestFromUI();
+        Test test = controller.addAnswerToQuestion();
+        updateUIFromTest(test);
+    }
 }//GEN-LAST:event_addAnswerButtonActionPerformed
 
 private void removeAnswerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeAnswerButtonActionPerformed
@@ -541,13 +579,49 @@ private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     updateUIFromTest(test);
 }//GEN-LAST:event_nextQuestionActionPerformed
 
+private void saveAsTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsTestActionPerformed
+    JFileChooser fchooser = new JFileChooser();
+    fchooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    //fchooser.setFileFilter(new FileNameExtensionFilter("*.test", "test"));
+    int returnVal = fchooser.showSaveDialog(this);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        String fileName = fchooser.getSelectedFile().getAbsolutePath();
+        controller.saveAsTest(fileName, getTestFromUI());
+    }
+}//GEN-LAST:event_saveAsTestActionPerformed
+
+private void openTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openTestActionPerformed
+    JFileChooser fchooser = new JFileChooser();
+    fchooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+    //fchooser.setFileFilter(new FileNameExtensionFilter("*.test", "test"));
+    fchooser.setCurrentDirectory(new File("."));
+    int returnVal = fchooser.showOpenDialog(this);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        String fileName = fchooser.getSelectedFile().getAbsolutePath();
+        Test test = controller.openTest(fileName);
+        updateUIFromTest(test);
+        questionPanel.setVisible(true);
+        jPanel1.setVisible(true);
+    }
+
+}//GEN-LAST:event_openTestActionPerformed
+
+private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+    System.exit(0);
+}//GEN-LAST:event_exitMenuItemActionPerformed
+
+private void saveTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTestActionPerformed
+    controller.saveTest(getTestFromUI());
+}//GEN-LAST:event_saveTestActionPerformed
+
     private void updateUIFromTest(Test test) {
-        currentQuestion.setText(test.getCurrentQuestionIndex() + "");
+        currentQuestion.setText(test.getCursor() + 1 + "");
         totalQuestionsCount.setText(test.getTotalQuestionsCount() + "");
         totalTestTime.setValue(test.getTestTimeInMinutes());
         questionToUser.setValue(test.getQuestionToUserCount());
+        this.setTitle("Создатель тестов: " + test.getTestName());
 
-        Question question = test.getMapOfQuestions().get(test.getCurrentQuestionIndex());
+        Question question = controller.getCurrentQuestion();
         if (question != null) {
             questionTextArea.setText(question.getQuestion());
 
@@ -562,6 +636,11 @@ private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     answPanel.get(i).setVisible(false);
                 }
             }
+            questionPanel.setVisible(true);
+
+        } else {
+            questionPanel.setVisible(false);
+
         }
     }
 
@@ -570,7 +649,7 @@ private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         test.setTestTimeInMinutes((Integer) totalTestTime.getValue());
         test.setQuestionToUserCount((Integer) questionToUser.getValue());
 
-        Question question = test.getMapOfQuestions().get(test.getCurrentQuestionIndex());
+        Question question = controller.getCurrentQuestion();
         if (question != null) {
             question.setQuestion(questionTextArea.getText());
             for (int i = 0; i < 8; i++) {
@@ -594,7 +673,7 @@ private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -631,6 +710,7 @@ private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JPanel answerPanel8;
     private javax.swing.JMenuItem createNewTest;
     private javax.swing.JLabel currentQuestion;
+    private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
@@ -648,6 +728,8 @@ private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
@@ -664,6 +746,7 @@ private void nextQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JSpinner questionToUser;
     private javax.swing.JButton removeAnswerButton;
     private javax.swing.JButton removeQuestion;
+    private javax.swing.JMenuItem saveAsTest;
     private javax.swing.JMenuItem saveTest;
     private javax.swing.JLabel totalQuestionsCount;
     private javax.swing.JSpinner totalTestTime;

@@ -5,7 +5,7 @@
 package tester.creator;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @author Myroslav
@@ -13,10 +13,10 @@ import java.util.HashMap;
 public class UIController implements Serializable {
 
     private Test currentOpenTest;
-    private String destinatedTestDirectory;
-    private String testFileName;
+    private String fileNameToSave;
 
     public Test openTest(String testFileName) {
+        this.fileNameToSave = testFileName;
         ObjectInputStream in = null;
         Test test = null;
         try {
@@ -34,57 +34,8 @@ public class UIController implements Serializable {
         return currentOpenTest;
     }
 
-    public Test createTest(String destinatedTestDirectory, String testFileName) {
-        Test test = new Test();
-        test.setCurrentQuestionIndex(0);
-        test.setTestTimeInMinutes(0);
-        test.setTotalQuestionsCount(0);
-        test.setQuestionToUserCount(0);
-        test.setMapOfQuestions(new HashMap<Integer, Question>());
-        setCurrentOpenTest(test);
-        
-        return currentOpenTest;
-    }
-
-    public Test addQuestion() {
-        HashMap<Integer, Question> qws = currentOpenTest.getMapOfQuestions();
-        int id = qws.size() + 1;
-        HashMap<Integer, Answer> answ = new HashMap<Integer, Answer>(8);
-        qws.put(id, new Question(id, "", answ));
-        currentOpenTest.setCurrentQuestionIndex(id);
-        currentOpenTest.setTotalQuestionsCount(id);
-        return currentOpenTest;
-    }
-
-    public Test removeQuestion() {
-        HashMap<Integer, Question> qws = currentOpenTest.getMapOfQuestions();
-        qws.remove(currentOpenTest.getCurrentQuestionIndex());
-        currentOpenTest.setCurrentQuestionIndex(qws.size());
-        currentOpenTest.setTotalQuestionsCount(qws.size());
-        return currentOpenTest;
-    }
-
-    public Test addAnswerToQuestion() {
-        Question q = currentOpenTest.getMapOfQuestions().get(currentOpenTest.getCurrentQuestionIndex());
-
-        HashMap<Integer, Answer> answ = q.getAnswers();
-        int id = answ.size() + 1;
-        answ.put(id, new Answer(id, "", false));
-        return currentOpenTest;
-
-    }
-
-    public Test removeAnswerFromQuestion() {
-        Question q = currentOpenTest.getMapOfQuestions().get(currentOpenTest.getCurrentQuestionIndex());
-
-        HashMap<Integer, Answer> answ = q.getAnswers();
-        int id = answ.size();
-        answ.remove(id);
-        return currentOpenTest;
-
-    }
-
-    public void saveTest(String fileNameToSave, Test test) {
+    public void saveAsTest(String fileNameToSave, Test test) {
+        this.fileNameToSave = fileNameToSave;
         ObjectOutputStream o = null;
         try {
             o = new ObjectOutputStream(new FileOutputStream(fileNameToSave));
@@ -99,15 +50,101 @@ public class UIController implements Serializable {
         }
     }
 
+    public void saveTest(Test test) {
+        if (fileNameToSave == null) {
+            fileNameToSave = "./" + test.getTestName();
+        }
+        ObjectOutputStream o = null;
+        try {
+            o = new ObjectOutputStream(new FileOutputStream(fileNameToSave));
+            o.writeObject(test);
+            o.close();
+        } catch (IOException ex) {
+        } finally {
+            try {
+                o.close();
+            } catch (IOException ex) {
+            }
+        }
+
+
+    }
+
+
+    public Question getCurrentQuestion() {
+        ArrayList<Question> qws = currentOpenTest.getListOfQuestions();
+        if (qws.size() > 0) {
+            return qws.get(currentOpenTest.getCursor());
+        } else {
+            return null;
+        }
+    }
+
+    public Test createTest(String testFileName) {
+        Test test = new Test();
+        test.setTestName(testFileName);
+        test.setCursor(0);
+        test.setTestTimeInMinutes(0);
+        test.setTotalQuestionsCount(0);
+        test.setQuestionToUserCount(0);
+        test.setListOfQuestions(new ArrayList<Question>());
+        setCurrentOpenTest(test);
+        addQuestion();
+        return currentOpenTest;
+    }
+
+    public Test addQuestion() {
+        ArrayList<Question> qws = currentOpenTest.getListOfQuestions();
+        int position = qws.size();
+        HashMap<Integer, Answer> answ = new HashMap<Integer, Answer>(8);
+        qws.add(position, new Question(new Random().nextInt(), "", answ));
+        currentOpenTest.setCursor(position);
+        currentOpenTest.setTotalQuestionsCount(qws.size());
+        return currentOpenTest;
+    }
+
+    public Test removeQuestion() {
+        ArrayList<Question> qws = currentOpenTest.getListOfQuestions();
+        if (qws.size() > 0) {
+            qws.remove(currentOpenTest.getCursor());
+            currentOpenTest.setCursor(qws.size() - 1);
+            currentOpenTest.setTotalQuestionsCount(qws.size());
+        } else {
+
+        }
+        return currentOpenTest;
+    }
+
+    public Test addAnswerToQuestion() {
+        Question q = currentOpenTest.getListOfQuestions().get(currentOpenTest.getCursor());
+
+        HashMap<Integer, Answer> answ = q.getAnswers();
+        int id = answ.size() + 1;
+        answ.put(id, new Answer(id, "", false));
+        return currentOpenTest;
+
+    }
+
+    public Test removeAnswerFromQuestion() {
+        Question q = currentOpenTest.getListOfQuestions().get(currentOpenTest.getCursor());
+
+        HashMap<Integer, Answer> answ = q.getAnswers();
+        int id = answ.size();
+        answ.remove(id);
+        return currentOpenTest;
+
+    }
+
+
     public Test increaseCurrentQuestionIndex() {
-        int val = currentOpenTest.getCurrentQuestionIndex();
-        currentOpenTest.setCurrentQuestionIndex((val + 1) > currentOpenTest.getTotalQuestionsCount() ? currentOpenTest.getTotalQuestionsCount() : val + 1);
+        int n = currentOpenTest.getCursor() + 1;
+        currentOpenTest.setCursor(n >= currentOpenTest.getListOfQuestions().size() ? n - 1 : n);
         return currentOpenTest;
     }
 
     public Test decreaseCurrentQuestionIndex() {
-        int val = currentOpenTest.getCurrentQuestionIndex();
-        currentOpenTest.setCurrentQuestionIndex(((val - 1) < 1) ? 1 : val - 1);
+        int p = currentOpenTest.getCursor() - 1;
+        currentOpenTest.setCursor(p < 0 ? (currentOpenTest.getListOfQuestions().isEmpty() ? -1 : 0) : p);
         return currentOpenTest;
     }
 
@@ -117,21 +154,5 @@ public class UIController implements Serializable {
 
     public void setCurrentOpenTest(Test currentOpenTest) {
         this.currentOpenTest = currentOpenTest;
-    }
-
-    public String getDestinatedTestDirectory() {
-        return destinatedTestDirectory;
-    }
-
-    public void setDestinatedTestDirectory(String destinatedTestDirectory) {
-        this.destinatedTestDirectory = destinatedTestDirectory;
-    }
-
-    public String getTestFileName() {
-        return testFileName;
-    }
-
-    public void setTestFileName(String testFileName) {
-        this.testFileName = testFileName;
     }
 }

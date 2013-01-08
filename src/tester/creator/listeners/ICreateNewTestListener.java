@@ -9,5 +9,5 @@ package tester.creator.listeners;
  * @author Myroslav
  */
 public interface ICreateNewTestListener {
-    public void testCreated(String testName, String fileLocation);
+    public void testCreated(String testName);
 }

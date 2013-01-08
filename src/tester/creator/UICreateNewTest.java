@@ -20,7 +20,6 @@ import tester.creator.listeners.ICreateNewTestListener;
 public class UICreateNewTest extends javax.swing.JFrame {
 
     private ICreateNewTestListener listener;
-    private String fileName;
     
     public UICreateNewTest(ICreateNewTestListener listener) {
         this.listener = listener;
@@ -38,8 +37,6 @@ public class UICreateNewTest extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         testName = new javax.swing.JTextField();
-        testLocation = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -47,15 +44,6 @@ public class UICreateNewTest extends javax.swing.JFrame {
         setResizable(false);
 
         jLabel1.setText("Ім'я тесту:");
-
-        testLocation.setText("Шлях до файлу");
-
-        jButton2.setText("...");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jButton3.setText("Ok");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -71,10 +59,6 @@ public class UICreateNewTest extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(testLocation, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -90,10 +74,6 @@ public class UICreateNewTest extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(testName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(testLocation)
-                    .addComponent(jButton2))
-                .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -101,23 +81,11 @@ public class UICreateNewTest extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        JFileChooser fchooser = new JFileChooser();
-        fchooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        //fchooser.setFileFilter(new FileNameExtensionFilter("*.test", "test"));
-        int returnVal = fchooser.showOpenDialog(this);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            this.fileName = fchooser.getSelectedFile().getAbsolutePath();
-            testLocation.setText(this.fileName);
-           
-        }
-}//GEN-LAST:event_jButton2ActionPerformed
-
 private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
     String name = testName.getText();
-    if(this.fileName != null && name != null) {
+    if(name != null) {
         this.dispose();
-        listener.testCreated(name, this.fileName);
+        listener.testCreated(name);
     }
     
 }//GEN-LAST:event_jButton3ActionPerformed
@@ -133,7 +101,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -158,10 +126,8 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JButton testLocation;
     private javax.swing.JTextField testName;
     // End of variables declaration//GEN-END:variables
 }

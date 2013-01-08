@@ -5,7 +5,10 @@
 package tester.creator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.TreeMap;
 
 /**
  *
@@ -14,18 +17,36 @@ import java.util.HashMap;
 public class Test implements Serializable {
     
     private int id;
+    private String testName;
     private int testTimeInMinutes;
-    private HashMap<Integer, Question> mapOfQuestions;
+    private ArrayList<Question> listOfQuestions;
+    private TreeMap<Integer, Question> mapOfQuestions;
     private int totalQuestionsCount;
     private int questionToUserCount;
-    private int currentQuestionIndex;
+    private int cursor;
 
-    public int getCurrentQuestionIndex() {
-        return currentQuestionIndex;
+    public String getTestName() {
+        return testName;
     }
 
-    public void setCurrentQuestionIndex(int currentQuestionIndex) {
-        this.currentQuestionIndex = currentQuestionIndex;
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
+
+    public ArrayList<Question> getListOfQuestions() {
+        return listOfQuestions;
+    }
+
+    public void setListOfQuestions(ArrayList<Question> listOfQuestions) {
+        this.listOfQuestions = listOfQuestions;
+    }
+
+    public int getCursor() {
+        return cursor;
+    }
+
+    public void setCursor(int cursor) {
+        this.cursor = cursor;
     }
 
     public int getId() {
@@ -36,11 +57,11 @@ public class Test implements Serializable {
         this.id = id;
     }
 
-    public HashMap<Integer, Question> getMapOfQuestions() {
+    public TreeMap<Integer, Question> getMapOfQuestions() {
         return mapOfQuestions;
     }
 
-    public void setMapOfQuestions(HashMap<Integer, Question> mapOfQuestions) {
+    public void setMapOfQuestions(TreeMap<Integer, Question> mapOfQuestions) {
         this.mapOfQuestions = mapOfQuestions;
     }
 
