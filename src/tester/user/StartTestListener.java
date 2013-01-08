@@ -13,5 +13,5 @@ import java.util.HashMap;
  */
 public interface StartTestListener {
 
-    public HashMap<Integer, Question> startTest(String testFileName, String userInformation);
+    public Question startTest(String testFileName, String userInformation);
 }

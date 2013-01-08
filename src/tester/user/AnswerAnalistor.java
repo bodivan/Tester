@@ -1,9 +1,8 @@
 package tester.user;
 
-import tester.creator.Answer;
-import tester.creator.Question;
 import tester.creator.Test;
 
+import java.lang.Integer;
 import java.util.HashMap;
 
 /**
@@ -15,10 +14,27 @@ import java.util.HashMap;
  */
 public class AnswerAnalistor {
 
-    private int countOfRightAnswers;
-    private int countOfUserRightAnswers;
-    private int testTimeInMinutes;
-    private int questionsCount;
+    public int findCountOfUserRightAnwers(HashMap<Integer, Integer> answers, Test test) {
+        int countOfUserRightAnswers = 0;
+        for (int i=0; i<=answers.size(); i++) {
+            if (test.getMapOfQuestions().get(i).getAnswers().get(answers.get(i)).isIsTrue()) {
+                countOfUserRightAnswers++;
+            }
+        }
+        return countOfUserRightAnswers;
+    }
+
+    private int findCountOfRightAnswers(Test test) {
+        int countOfRightAnswers = 0;
+        for (int j = 0; j <= test.getMapOfQuestions().size(); j++) {
+            for (int h = 0; h <= test.getMapOfQuestions().get(j).getAnswers().size(); h++) {
+                if (test.getMapOfQuestions().get(j).getAnswers().get(h).isIsTrue()) {
+                    countOfRightAnswers++;
+                }
+            }
+        }
+        return countOfRightAnswers;
+    }
 
     /**
      *
@@ -26,15 +42,7 @@ public class AnswerAnalistor {
      * @param test - test, that user is goes
      * @return
      */
-    public void analizeAnwers(HashMap<Integer, Integer> answers, Test test) {
-        for (int i=0; i<=answers.size(); i++) {
-            if (test.getMapOfQuestions().get(i).getAnswers().get(answers.get(i)).isIsTrue()) {
-                countOfUserRightAnswers++;
-            }
-        }
-    }
-
-    public double calculateResult() {
-
+    public double calculateResult(HashMap<Integer, Integer> answers, Test test) {
+        return (findCountOfUserRightAnwers(answers, test) * 100)/findCountOfRightAnswers(test);
     }
 }
