@@ -2,10 +2,14 @@ package tester.user;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Myroslav
+ * User: Ivan
  * Date: 08.01.13
- * Time: 0:35
+ * Time: 1:54
  * To change this template use File | Settings | File Templates.
  */
-public class test {
+public interface TestTimer {
+
+    public void update(String currTime, String totalTime);
+
+
 }
