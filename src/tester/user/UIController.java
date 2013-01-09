@@ -68,6 +68,7 @@ public class UIController implements StartTestListener {
             q = currentOpenTest.getMapOfQuestions().get(new Random().nextInt(currentOpenTest.getTotalQuestionsCount()));
             questions.put(q.getId(), q);
         }
+        this.startTimer();
         return questions.remove(new Random().nextInt(questions.size()));
     }
 
