@@ -9,7 +9,7 @@ package tester.user;
  */
 public interface TestTimer {
 
-    public long update(String currTime, String totalTime);
+    public void update(String timeRemaining);
 
-    public void stopTest(UIController controller);
+    public void stopTest();
 }
