@@ -75,6 +75,7 @@ public class UIController implements StartTestListener {
         userAnswers.put(currentQuestion.getId(), answerId);
         if (questions.size() == 0) {
             stopTest();
+            testTimer.stopTest(testResult);
         }
         currentQuestion = questions.removeLast();
         return currentQuestion;
@@ -100,6 +101,7 @@ public class UIController implements StartTestListener {
                 testTimer.update(minutes + ":" + seconds, questions.size(), userAnswers.size());
                 if (currTime-- == 0) {
                     stopTest();
+                    testTimer.stopTest(testResult);
                 }
             }
         };
