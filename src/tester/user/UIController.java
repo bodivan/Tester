@@ -8,10 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,11 +22,12 @@ public class UIController implements StartTestListener {
     private TestTimer testTimer;
     private Test currentOpenTest;
     private HashMap<Integer, Integer> userAnswers;
-    private HashMap<Integer, Question> questions;
+    private LinkedList<Question> questions;
     private double testResult;
     private int currTime;
     private int minutes;
     private int seconds;
+    private Question currentQuestion;
 
     public Test openTest(String testFileName) {
         ObjectInputStream in = null;
@@ -51,7 +49,7 @@ public class UIController implements StartTestListener {
 
     public void stopTest() {
         if (!questions.isEmpty()) {
-            for (int j : questions.keySet()) {
+            for (int j = 0; j <= questions.size(); j++) {
                 userAnswers.put(j, -1);
             }
         }
@@ -62,14 +60,34 @@ public class UIController implements StartTestListener {
     @Override
     public Question startTest(String testFileName, String userInformation) {
         openTest(testFileName);
-        questions = new HashMap<Integer, Question>();
+        questions = new LinkedList<Question>();
         Question q = null;
         for (int i = 0; i <= currentOpenTest.getMapOfQuestions().size(); i++) {
             q = currentOpenTest.getMapOfQuestions().get(new Random().nextInt(currentOpenTest.getTotalQuestionsCount()));
-            questions.put(q.getId(), q);
+            questions.add(i, q);
         }
         this.startTimer();
-        return questions.remove(new Random().nextInt(questions.size()));
+        currentQuestion = questions.removeLast();
+        return currentQuestion;
+    }
+
+    public Question proceedAnswer(int answerId) {
+        userAnswers.put(currentQuestion.getId(), answerId);
+        if (questions.size() == 0) {
+            stopTest();
+        }
+        currentQuestion = questions.removeLast();
+        return currentQuestion;
+    }
+
+    public Question proceedSkipingAnswer() {
+        questions.add(0, currentQuestion);
+        currentQuestion = questions.removeLast();
+        return currentQuestion;
+    }
+
+    public void proceedUserChoise() {
+
     }
 
     public void startTimer() {
@@ -79,25 +97,14 @@ public class UIController implements StartTestListener {
             public void run() {
                 minutes = currTime / 60;
                 seconds = minutes % 60;
-                testTimer.update(minutes + ":" + seconds);
-                currTime--;
+                testTimer.update(minutes + ":" + seconds, questions.size(), userAnswers.size());
+                if (currTime-- == 0) {
+                    stopTest();
+                }
             }
         };
         Timer timer = new Timer();
         timer.schedule(task, 1000);
-
-    }
-
-    public void proceedAnswer(int questionId, int answerId) {
-        userAnswers.put(questionId, answerId);
-    }
-
-    public void proceedSkipingAnswer(Question question) {
-        questions.put(question.getId(), question);
-    }
-
-    public void proceedUserChoise() {
-
     }
 
     public void setCurrentOpenTest(Test currentOpenTest) {
@@ -122,5 +129,9 @@ public class UIController implements StartTestListener {
 
     public TestTimer getTestTimer() {
         return testTimer;
+    }
+
+    public void setTestTimer(TestTimer testTimer) {
+        this.testTimer = testTimer;
     }
 }

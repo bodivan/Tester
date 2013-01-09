@@ -9,7 +9,7 @@ package tester.user;
  */
 public interface TestTimer {
 
-    public void update(String timeRemaining);
+    public void update(String timeRemaining, int totalCountOfQuestions, int countAnsweredQuestions);
 
     public void stopTest();
 }
