@@ -119,7 +119,7 @@ public class UIController implements Serializable {
         Question q = currentOpenTest.getListOfQuestions().get(currentOpenTest.getCursor());
 
         HashMap<Integer, Answer> answ = q.getAnswers();
-        int id = answ.size() + 1;
+        int id = answ.size();
         answ.put(id, new Answer(id, "", false));
         return currentOpenTest;
 
