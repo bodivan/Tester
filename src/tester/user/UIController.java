@@ -22,7 +22,7 @@ public class UIController implements StartTestListener {
     private Timer timer;
     private TestTimer testTimer;
     private Test currentOpenTest;
-    private HashMap<Integer, Integer> userAnswers;
+    private HashMap<Integer, List> userAnswers;
     private LinkedList<Question> questions;
     private double testResult;
     private int currTime;
@@ -52,7 +52,7 @@ public class UIController implements StartTestListener {
     public void stopTest() {
         if (!questions.isEmpty()) {
             for (int j = 0; j <= questions.size(); j++) {
-                userAnswers.put(j, -1);
+                userAnswers.put(j, null);
             }
         }
         timer.cancel();
@@ -64,7 +64,7 @@ public class UIController implements StartTestListener {
     public Question startTest(String testFileName, String userInformation) {
         openTest(testFileName);
         setUserInformation(userInformation);
-        userAnswers = new HashMap<Integer, Integer>();
+        userAnswers = new HashMap<Integer, List>();
         questions = new LinkedList<Question>();
 
         Question q = null;
@@ -79,8 +79,8 @@ public class UIController implements StartTestListener {
         return currentQuestion;
     }
 
-    public Question proceedAnswer(int answerId) {
-        userAnswers.put(currentQuestion.getId(), answerId);
+    public Question proceedAnswer(List<Integer> answerIds) {
+        userAnswers.put(currentQuestion.getId(), answerIds);
         if (questions.size() == 0) {
             stopTest();
             testTimer.stopTest(userInformation + ": " + testResult);
@@ -104,7 +104,7 @@ public class UIController implements StartTestListener {
             public void run() {
                 minutes = currTime / 60;
                 seconds = currTime % 60;
-                testTimer.update(minutes + ":" + seconds, questions.size(), userAnswers.size());
+                testTimer.update("--:--", currentOpenTest.getQuestionToUserCount(), userAnswers.size());
                 if (currTime-- == 0) {
                     stopTest();
                     testTimer.stopTest(userInformation + ": " + testResult);
@@ -122,11 +122,11 @@ public class UIController implements StartTestListener {
         return currentOpenTest;
     }
 
-    public HashMap<Integer, Integer> getUserAnswers() {
+    public HashMap<Integer, List> getUserAnswers() {
         return userAnswers;
     }
 
-    public void setUserAnswers(HashMap<Integer, Integer> userAnswers) {
+    public void setUserAnswers(HashMap<Integer, List> userAnswers) {
         this.userAnswers = userAnswers;
     }
 

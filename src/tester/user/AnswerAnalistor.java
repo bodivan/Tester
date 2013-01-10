@@ -7,6 +7,7 @@ import tester.creator.Test;
 import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,19 +23,21 @@ public class AnswerAnalistor {
     private int countOfUserRightAnswers;
     private int countOfUserWrongAnswers;
 
-    private void findCountOfUserRightAnwers(HashMap<Integer, Integer> answers, Test test) {
+    private void findCountOfUserRightAnwers(HashMap<Integer, List> answers, Test test) {
         countOfUserRightAnswers = 0;
         ArrayList<Question> lQ = test.getListOfQuestions();
         HashMap<Integer, Question> hQ = new HashMap<Integer, Question>();
         for(Question q : lQ){
             hQ.put(q.getId(), q);
         }
-        for (Map.Entry<Integer, Integer> es : answers.entrySet()) {
+        for (Map.Entry<Integer, List> es : answers.entrySet()) {
             Question q = hQ.get(es.getKey());
-            if (q.getAnswers().get(es.getValue()).isIsTrue()) {
-                countOfUserRightAnswers++;
-            } else {
-                countOfUserWrongAnswers++;
+            for (int j = 0; j < q.getAnswers().size(); j++) {
+                if (q.getAnswers().get(es.getValue().get(j)).isIsTrue()) {
+                    countOfUserRightAnswers++;
+                } else {
+                    countOfUserWrongAnswers++;
+                }
             }
         }
     }
@@ -58,7 +61,7 @@ public class AnswerAnalistor {
      * @param test - test, that user is goes
      * @return
      */
-    public double calculateResult(HashMap<Integer, Integer> answers, Test test) {
+    public double calculateResult(HashMap<Integer, List> answers, Test test) {
         findCountOfRightAnswers(test);
         findCountOfUserRightAnwers(answers, test);
         return ((countOfUserRightAnswers - countOfUserWrongAnswers) * 100)/countOfRightAnswers;
