@@ -22,7 +22,7 @@ public class UIController implements StartTestListener {
     private Timer timer;
     private TestTimer testTimer;
     private Test currentOpenTest;
-    private HashMap<Integer, List> userAnswers;
+    private HashMap<Integer, List<Integer>> userAnswers;
     private LinkedList<Question> questions;
     private double testResult;
     private int currTime;
@@ -64,7 +64,7 @@ public class UIController implements StartTestListener {
     public Question startTest(String testFileName, String userInformation) {
         openTest(testFileName);
         setUserInformation(userInformation);
-        userAnswers = new HashMap<Integer, List>();
+        userAnswers = new HashMap<Integer, List<Integer>>();
         questions = new LinkedList<Question>();
 
         Question q = null;
@@ -122,11 +122,11 @@ public class UIController implements StartTestListener {
         return currentOpenTest;
     }
 
-    public HashMap<Integer, List> getUserAnswers() {
+    public HashMap<Integer, List<Integer>> getUserAnswers() {
         return userAnswers;
     }
 
-    public void setUserAnswers(HashMap<Integer, List> userAnswers) {
+    public void setUserAnswers(HashMap<Integer, List<Integer>> userAnswers) {
         this.userAnswers = userAnswers;
     }
 
