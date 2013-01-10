@@ -104,7 +104,7 @@ public class UIController implements StartTestListener {
             public void run() {
                 minutes = currTime / 60;
                 seconds = currTime % 60;
-                testTimer.update(minutes + ":" + seconds, questions.size(), userAnswers.size());
+                testTimer.update(minutes + ":" + seconds, currentOpenTest.getQuestionToUserCount(), userAnswers.size());
                 if (currTime-- == 0) {
                     stopTest();
                     testTimer.stopTest(userInformation + ": " + testResult);
