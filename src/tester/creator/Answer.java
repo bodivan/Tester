@@ -15,6 +15,7 @@ public class Answer implements Serializable {
     private int id;
     private String answer;
     private boolean isTrue;
+    private static final long serialVersionUID  = 1L;
 
     public Answer(int id, String answer, boolean isTrue) {
         this.id = id;

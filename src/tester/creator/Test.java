@@ -18,6 +18,7 @@ public class Test implements Serializable {
     private String testName;
     private int testTimeInMinutes;
     private ArrayList<Question> listOfQuestions;
+    private static final long serialVersionUID  = 3L;
 
     private int totalQuestionsCount;
     private int questionToUserCount;

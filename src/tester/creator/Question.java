@@ -16,6 +16,7 @@ public class Question implements Serializable {
     private int id;
     private String question;
     private HashMap<Integer, Answer> answers;
+    private static final long serialVersionUID  = 2L;
 
     public Question(int id, String question, HashMap<Integer, Answer> answers) {
         this.id = id;
