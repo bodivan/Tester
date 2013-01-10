@@ -8,6 +8,6 @@ package tester.creator.listeners;
  *
  * @author Myroslav
  */
-public interface ICreateNewTestListener {
-    public void testCreated(String testName);
+public interface INewTestListener {
+    public void newTest(String testName);
 }

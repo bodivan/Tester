@@ -10,7 +10,7 @@
  */
 package tester.creator;
 
-import tester.creator.listeners.ICreateNewTestListener;
+import tester.creator.listeners.INewTestListener;
 
 /**
  *
@@ -18,16 +18,16 @@ import tester.creator.listeners.ICreateNewTestListener;
  */
 public class UICreateNewTest extends javax.swing.JFrame {
 
-    private ICreateNewTestListener listener;
+    private INewTestListener listener;
 
-    public UICreateNewTest(ICreateNewTestListener listener) {
+    public UICreateNewTest(INewTestListener listener) {
         this.listener = listener;
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
-    public UICreateNewTest(ICreateNewTestListener listener, String labelText) {
+    public UICreateNewTest(INewTestListener listener, String labelText) {
         this.listener = listener;
         initComponents();
         jLabel1.setText(labelText);
@@ -94,7 +94,7 @@ private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     String name = testName.getText();
     if (name != null) {
         this.dispose();
-        listener.testCreated(name);
+        listener.newTest(name);
     }
 
 }//GEN-LAST:event_jButton3ActionPerformed

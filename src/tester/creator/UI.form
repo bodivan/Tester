@@ -75,7 +75,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="title" type="java.lang.String" value="&#x421;&#x43e;&#x437;&#x434;&#x430;&#x442;&#x435;&#x43b;&#x44c; &#x442;&#x435;&#x441;&#x442;&#x43e;&#x432;"/>
+    <Property name="title" type="java.lang.String" value="&#x413;&#x435;&#x43d;&#x435;&#x440;&#x430;&#x442;&#x43e;&#x440; &#x442;&#x435;&#x441;&#x442;&#x456;&#x432;"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -205,7 +205,7 @@
         <Component class="javax.swing.JSpinner" name="totalTestTime">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-              <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+              <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
           </Properties>
         </Component>
