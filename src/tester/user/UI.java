@@ -72,10 +72,10 @@ public class UI extends javax.swing.JFrame {
 
             @Override
             public void stopTest(String result) {
-                testContainer.setVisible(false);
+
                 JOptionPane pane = new JOptionPane();
                 switch (pane.showConfirmDialog(new JFrame(), result, "Результат", JOptionPane.DEFAULT_OPTION)) {
-                    case 0:
+                    case 0: testContainer.setVisible(false);
                     case 1:
                 }
             }
@@ -149,6 +149,7 @@ public class UI extends javax.swing.JFrame {
         openMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(506, 570));
 
         jPanel1.setAlignmentX(0.0F);
         jPanel1.setAlignmentY(0.0F);
@@ -170,7 +171,7 @@ public class UI extends javax.swing.JFrame {
             }
         });
 
-        okButton.setText("Ок");
+        okButton.setText("Готово");
         okButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 okButtonActionPerformed(evt);
@@ -191,7 +192,7 @@ public class UI extends javax.swing.JFrame {
                 .addContainerGap())
             .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(330, Short.MAX_VALUE)
+                .addContainerGap(308, Short.MAX_VALUE)
                 .addComponent(skipButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(okButton)
@@ -219,6 +220,7 @@ public class UI extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setEditable(false);
         jTextArea1.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
@@ -244,6 +246,7 @@ public class UI extends javax.swing.JFrame {
         jTextArea2.setColumns(20);
         jTextArea2.setEditable(false);
         jTextArea2.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jTextArea2.setLineWrap(true);
         jTextArea2.setRows(5);
         jScrollPane3.setViewportView(jTextArea2);
 
@@ -269,6 +272,7 @@ public class UI extends javax.swing.JFrame {
         jTextArea3.setColumns(20);
         jTextArea3.setEditable(false);
         jTextArea3.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jTextArea3.setLineWrap(true);
         jTextArea3.setRows(5);
         jScrollPane4.setViewportView(jTextArea3);
 
@@ -294,6 +298,7 @@ public class UI extends javax.swing.JFrame {
         jTextArea4.setColumns(20);
         jTextArea4.setEditable(false);
         jTextArea4.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jTextArea4.setLineWrap(true);
         jTextArea4.setRows(5);
         jScrollPane5.setViewportView(jTextArea4);
 
@@ -319,6 +324,7 @@ public class UI extends javax.swing.JFrame {
         jTextArea5.setColumns(20);
         jTextArea5.setEditable(false);
         jTextArea5.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jTextArea5.setLineWrap(true);
         jTextArea5.setRows(5);
         jScrollPane6.setViewportView(jTextArea5);
 
@@ -344,6 +350,7 @@ public class UI extends javax.swing.JFrame {
         jTextArea6.setColumns(20);
         jTextArea6.setEditable(false);
         jTextArea6.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jTextArea6.setLineWrap(true);
         jTextArea6.setRows(5);
         jScrollPane7.setViewportView(jTextArea6);
 
@@ -369,6 +376,7 @@ public class UI extends javax.swing.JFrame {
         jTextArea7.setColumns(20);
         jTextArea7.setEditable(false);
         jTextArea7.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jTextArea7.setLineWrap(true);
         jTextArea7.setRows(5);
         jScrollPane8.setViewportView(jTextArea7);
 
@@ -394,6 +402,7 @@ public class UI extends javax.swing.JFrame {
         jTextArea8.setColumns(20);
         jTextArea8.setEditable(false);
         jTextArea8.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jTextArea8.setLineWrap(true);
         jTextArea8.setRows(5);
         jScrollPane9.setViewportView(jTextArea8);
 
@@ -542,8 +551,6 @@ private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     if (returnVal == JFileChooser.APPROVE_OPTION) {
         fileName = fchooser.getSelectedFile().getAbsolutePath();
         Test test = controller.openTest(fileName);
-        //updateUIFromTest(test);
-        //questionPanel.setVisible(true);
         jPanel1.setVisible(true);
     }
 
@@ -552,8 +559,8 @@ private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         @Override
         public void testCreated(String userInfo) {
             testContainer.setVisible(true);
+            //UI.setEnabled(true);
             Question q = controller.startTest(fileName, userInfo);
-            // updateUIFromTest(test);
             jPanel1.setVisible(true);
             setQuestion(q);
             jPanel1.setVisible(true);
@@ -569,18 +576,21 @@ private void skipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_skipButtonActionPerformed
 
 private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-
+    ArrayList<Integer> answers = new ArrayList<Integer>();
     for(int i=0; i < answCheckBox.size(); i++){
         JCheckBox chb = answCheckBox.get(i);
-        if(chb.isSelected()){
-            Question q = controller.proceedAnswer(i);
-            setQuestion(q);
-            break;
+        if(chb.isSelected()) {
+            answers.add(i);
         }
     }
+   // Question q = controller.proceedAnswer(answers);
+ //   setQuestion(q);
 
 }//GEN-LAST:event_okButtonActionPerformed
 
+    private void disableMainFrame(boolean disable){
+        this.setEnabled(disable);
+    }
     private void setQuestion(Question q) {
         if (q != null) {
             questionTA.setText(q.getQuestion());
