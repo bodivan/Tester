@@ -10,7 +10,6 @@
  */
 package tester.creator;
 
-import javax.swing.JFileChooser;
 import tester.creator.listeners.ICreateNewTestListener;
 
 /**
@@ -24,6 +23,14 @@ public class UICreateNewTest extends javax.swing.JFrame {
     public UICreateNewTest(ICreateNewTestListener listener) {
         this.listener = listener;
         initComponents();
+        this.setLocationRelativeTo(null);
+    }
+    
+    public UICreateNewTest(ICreateNewTestListener listener, String labelText) {
+        this.listener = listener;
+        initComponents();
+        jLabel1.setText(labelText);
+        this.setLocationRelativeTo(null);
     }
 
     /** This method is called from within the constructor to

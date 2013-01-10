@@ -31,6 +31,7 @@ public class UI extends javax.swing.JFrame {
 
     /** Creates new form UI */
     public UI() {
+        this.setLocationRelativeTo(null);
         initComponents();
         questionPanel.setVisible(false);
         jPanel1.setVisible(false);
@@ -116,8 +117,8 @@ public class UI extends javax.swing.JFrame {
         answerPanel8 = new javax.swing.JPanel();
         jTextField8 = new javax.swing.JTextField();
         jCheckBox8 = new javax.swing.JCheckBox();
-        addAnswerButton = new javax.swing.JButton();
         removeAnswerButton = new javax.swing.JButton();
+        addAnswerButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         createNewTest = new javax.swing.JMenuItem();
@@ -236,7 +237,7 @@ public class UI extends javax.swing.JFrame {
         questionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Запитання"));
 
         questionTextArea.setColumns(20);
-        questionTextArea.setFont(new java.awt.Font("Arial", 0, 12));
+        questionTextArea.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         questionTextArea.setLineWrap(true);
         questionTextArea.setRows(5);
         questionTextArea.setWrapStyleWord(true);
@@ -372,20 +373,6 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(jCheckBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        addAnswerButton.setText("Додати");
-        addAnswerButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addAnswerButtonActionPerformed(evt);
-            }
-        });
-
-        removeAnswerButton.setText("Видалити");
-        removeAnswerButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeAnswerButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -398,11 +385,6 @@ public class UI extends javax.swing.JFrame {
             .addComponent(answerPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(answerPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(answerPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(396, Short.MAX_VALUE)
-                .addComponent(addAnswerButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeAnswerButton))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,22 +405,36 @@ public class UI extends javax.swing.JFrame {
                 .addComponent(answerPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(answerPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(removeAnswerButton)
-                    .addComponent(addAnswerButton))
-                .addContainerGap())
+                .addGap(40, 40, 40))
         );
+
+        removeAnswerButton.setText("Видалити");
+        removeAnswerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeAnswerButtonActionPerformed(evt);
+            }
+        });
+
+        addAnswerButton.setText("Додати");
+        addAnswerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAnswerButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout questionPanelLayout = new javax.swing.GroupLayout(questionPanel);
         questionPanel.setLayout(questionPanelLayout);
         questionPanelLayout.setHorizontalGroup(
             questionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, questionPanelLayout.createSequentialGroup()
+            .addGroup(questionPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(questionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE))
+                .addGroup(questionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, questionPanelLayout.createSequentialGroup()
+                        .addComponent(addAnswerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(removeAnswerButton)))
                 .addContainerGap())
         );
         questionPanelLayout.setVerticalGroup(
@@ -447,7 +443,11 @@ public class UI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(questionPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(removeAnswerButton)
+                    .addComponent(addAnswerButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -521,8 +521,8 @@ public class UI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(questionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(questionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -583,6 +583,7 @@ private void saveAsTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     JFileChooser fchooser = new JFileChooser();
     fchooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
     //fchooser.setFileFilter(new FileNameExtensionFilter("*.test", "test"));
+    fchooser.setCurrentDirectory(new File("."));
     int returnVal = fchooser.showSaveDialog(this);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
         String fileName = fchooser.getSelectedFile().getAbsolutePath();

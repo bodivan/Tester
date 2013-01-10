@@ -6,8 +6,6 @@ package tester.creator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.TreeMap;
 
 /**
@@ -20,7 +18,7 @@ public class Test implements Serializable {
     private String testName;
     private int testTimeInMinutes;
     private ArrayList<Question> listOfQuestions;
-    private TreeMap<Integer, Question> mapOfQuestions;
+
     private int totalQuestionsCount;
     private int questionToUserCount;
     private int cursor;
@@ -57,13 +55,7 @@ public class Test implements Serializable {
         this.id = id;
     }
 
-    public TreeMap<Integer, Question> getMapOfQuestions() {
-        return mapOfQuestions;
-    }
 
-    public void setMapOfQuestions(TreeMap<Integer, Question> mapOfQuestions) {
-        this.mapOfQuestions = mapOfQuestions;
-    }
 
     public int getQuestionToUserCount() {
         return questionToUserCount;

@@ -62,8 +62,8 @@ public class UIController implements StartTestListener {
         openTest(testFileName);
         questions = new LinkedList<Question>();
         Question q = null;
-        for (int i = 0; i <= currentOpenTest.getMapOfQuestions().size(); i++) {
-            q = currentOpenTest.getMapOfQuestions().get(new Random().nextInt(currentOpenTest.getTotalQuestionsCount()));
+        for (int i = 0; i <= currentOpenTest.getListOfQuestions().size(); i++) {
+            q = currentOpenTest.getListOfQuestions().get(new Random().nextInt(currentOpenTest.getTotalQuestionsCount()));
             questions.add(i, q);
         }
         this.startTimer();
