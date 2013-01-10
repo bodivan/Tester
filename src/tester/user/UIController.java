@@ -19,6 +19,7 @@ import java.util.*;
  */
 public class UIController implements StartTestListener {
 
+    private Timer timer;
     private TestTimer testTimer;
     private Test currentOpenTest;
     private HashMap<Integer, Integer> userAnswers;
@@ -28,6 +29,7 @@ public class UIController implements StartTestListener {
     private int minutes;
     private int seconds;
     private Question currentQuestion;
+    private String userInformation;
 
     public Test openTest(String testFileName) {
         ObjectInputStream in = null;
@@ -53,6 +55,7 @@ public class UIController implements StartTestListener {
                 userAnswers.put(j, -1);
             }
         }
+        timer.cancel();
         AnswerAnalistor analisator = new AnswerAnalistor();
         testResult = analisator.calculateResult(userAnswers, currentOpenTest);
     }
@@ -60,6 +63,7 @@ public class UIController implements StartTestListener {
     @Override
     public Question startTest(String testFileName, String userInformation) {
         openTest(testFileName);
+        setUserInformation(userInformation);
         userAnswers = new HashMap<Integer, Integer>();
         questions = new LinkedList<Question>();
 
@@ -79,7 +83,7 @@ public class UIController implements StartTestListener {
         userAnswers.put(currentQuestion.getId(), answerId);
         if (questions.size() == 0) {
             stopTest();
-            testTimer.stopTest(testResult);
+            testTimer.stopTest(userInformation + ": " + testResult);
         }
         currentQuestion = questions.removeLast();
         return currentQuestion;
@@ -93,6 +97,7 @@ public class UIController implements StartTestListener {
 
     public void startTimer() {
         currTime = (currentOpenTest.getTestTimeInMinutes())*60;
+        timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -101,11 +106,10 @@ public class UIController implements StartTestListener {
                 testTimer.update(minutes + ":" + seconds, questions.size(), userAnswers.size());
                 if (currTime-- == 0) {
                     stopTest();
-                    testTimer.stopTest(testResult);
+                    testTimer.stopTest(userInformation + ": " + testResult);
                 }
             }
         };
-        Timer timer = new Timer();
         timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
@@ -135,5 +139,9 @@ public class UIController implements StartTestListener {
 
     public void setTestTimer(TestTimer testTimer) {
         this.testTimer = testTimer;
+    }
+
+    public void setUserInformation(String userInformation) {
+        this.userInformation = userInformation;
     }
 }

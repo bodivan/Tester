@@ -11,5 +11,5 @@ public interface TestTimer {
 
     public void update(String timeRemaining, int totalCountOfQuestions, int countAnsweredQuestions);
 
-    public void stopTest(double result);
+    public void stopTest(String result);
 }
