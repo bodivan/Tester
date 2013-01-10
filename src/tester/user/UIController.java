@@ -79,7 +79,7 @@ public class UIController implements StartTestListener {
         return currentQuestion;
     }
 
-    public Question proceedAnswer(List answerIds) {
+    public Question proceedAnswer(List<Integer> answerIds) {
         userAnswers.put(currentQuestion.getId(), answerIds);
         if (questions.size() == 0) {
             stopTest();

@@ -581,8 +581,8 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             answers.add(i);
         }
     }
-   // Question q = controller.proceedAnswer(answers);
- //   setQuestion(q);
+    Question q = controller.proceedAnswer(answers);
+    setQuestion(q);
 
 }//GEN-LAST:event_okButtonActionPerformed
 
