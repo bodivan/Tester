@@ -31,8 +31,8 @@ public class UI extends javax.swing.JFrame {
 
     /** Creates new form UI */
     public UI() {
-        this.setLocationRelativeTo(null);
         initComponents();
+        this.setLocationRelativeTo(null);
         questionPanel.setVisible(false);
         jPanel1.setVisible(false);
         answPanel = new ArrayList<JPanel>(8);

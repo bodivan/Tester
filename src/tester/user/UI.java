@@ -36,6 +36,7 @@ public class UI extends javax.swing.JFrame {
     /** Creates new form UI */
     public UI() {
         initComponents();
+        this.setLocationRelativeTo(null);
         answCheckBox = new ArrayList<JCheckBox>(8);
         answTextField = new ArrayList<JTextArea>(8);
         answPanel = new ArrayList<JPanel>(8);
@@ -545,28 +546,25 @@ private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
     JFileChooser fchooser = new JFileChooser();
     fchooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-    //fchooser.setFileFilter(new FileNameExtensionFilter("*.test", "test"));
     fchooser.setCurrentDirectory(new File("."));
     int returnVal = fchooser.showOpenDialog(this);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
         fileName = fchooser.getSelectedFile().getAbsolutePath();
         Test test = controller.openTest(fileName);
         jPanel1.setVisible(true);
+        this.setTitle(fileName);
+        new UICreateNewTest(new ICreateNewTestListener() {
+            @Override
+            public void testCreated(String userInfo) {
+                testContainer.setVisible(true);
+
+                Question q = controller.startTest(fileName, userInfo);
+                jPanel1.setVisible(true);
+                setQuestion(q);
+                jPanel1.setVisible(true);
+            }
+        }, "ПІП, група:").setVisible(true);
     }
-
-    new UICreateNewTest(new ICreateNewTestListener() {
-
-        @Override
-        public void testCreated(String userInfo) {
-            testContainer.setVisible(true);
-            //UI.setEnabled(true);
-            Question q = controller.startTest(fileName, userInfo);
-            jPanel1.setVisible(true);
-            setQuestion(q);
-            jPanel1.setVisible(true);
-        }
-    }, "ПІП, група:").setVisible(true);
-
 
 }//GEN-LAST:event_openMenuItemActionPerformed
 
