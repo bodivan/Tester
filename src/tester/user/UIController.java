@@ -62,9 +62,12 @@ public class UIController implements StartTestListener {
         openTest(testFileName);
         userAnswers = new HashMap<Integer, Integer>();
         questions = new LinkedList<Question>();
+
         Question q = null;
-        for (int i = 0; i <= currentOpenTest.getListOfQuestions().size(); i++) {
-            q = currentOpenTest.getListOfQuestions().get(new Random().nextInt(currentOpenTest.getTotalQuestionsCount()));
+        ArrayList<Question> list = new ArrayList<Question>();
+        list.addAll(currentOpenTest.getListOfQuestions());
+        for (int i = 0; i <= list.size(); i++) {
+            q = list.remove(new Random().nextInt(list.size()));
             questions.add(i, q);
         }
         this.startTimer();
@@ -88,17 +91,13 @@ public class UIController implements StartTestListener {
         return currentQuestion;
     }
 
-    public void proceedUserChoise() {
-
-    }
-
     public void startTimer() {
         currTime = (currentOpenTest.getTestTimeInMinutes())*60;
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
                 minutes = currTime / 60;
-                seconds = minutes % 60;
+                seconds = currTime % 60;
                 testTimer.update(minutes + ":" + seconds, questions.size(), userAnswers.size());
                 if (currTime-- == 0) {
                     stopTest();
@@ -107,7 +106,7 @@ public class UIController implements StartTestListener {
             }
         };
         Timer timer = new Timer();
-        timer.schedule(task, 1000);
+        timer.scheduleAtFixedRate(task, 0, 1000);
     }
 
     public void setCurrentOpenTest(Test currentOpenTest) {

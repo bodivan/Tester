@@ -424,14 +424,12 @@ private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event_openMenuItemActionPerformed
 
 private void skipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_skipButtonActionPerformed
-    controller.proceedSkipingAnswer();
-    Question q = null;
+    Question q = controller.proceedSkipingAnswer();
     setQuestion(q);
 }//GEN-LAST:event_skipButtonActionPerformed
 
 private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-    controller.proceedAnswer(WIDTH);
-    Question q = null;
+    Question q = controller.proceedAnswer(WIDTH);
     setQuestion(q);
 }//GEN-LAST:event_okButtonActionPerformed
 

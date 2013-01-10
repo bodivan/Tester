@@ -1,9 +1,13 @@
 package tester.user;
 
+import tester.creator.Answer;
+import tester.creator.Question;
 import tester.creator.Test;
 
 import java.lang.Integer;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,8 +20,14 @@ public class AnswerAnalistor {
 
     public int findCountOfUserRightAnwers(HashMap<Integer, Integer> answers, Test test) {
         int countOfUserRightAnswers = 0;
-        for (int i=0; i<=answers.size(); i++) {
-            if (test.getListOfQuestions().get(i).getAnswers().get(answers.get(i)).isIsTrue()) {
+        ArrayList<Question> lQ = test.getListOfQuestions();
+        HashMap<Integer, Question> hQ = new HashMap<Integer, Question>();
+        for(Question q : lQ){
+            hQ.put(q.getId(), q);
+        }
+        for (Map.Entry<Integer, Integer> es : answers.entrySet()) {
+            Question q = hQ.get(es.getKey());
+            if (q.getAnswers().get(es.getValue()).isIsTrue()) {
                 countOfUserRightAnswers++;
             }
         }
@@ -26,9 +36,11 @@ public class AnswerAnalistor {
 
     private int findCountOfRightAnswers(Test test) {
         int countOfRightAnswers = 0;
-        for (int j = 0; j <= test.getListOfQuestions().size(); j++) {
-            for (int h = 0; h <= test.getListOfQuestions().get(j).getAnswers().size(); h++) {
-                if (test.getListOfQuestions().get(j).getAnswers().get(h).isIsTrue()) {
+        for (int i = 0; i < test.getListOfQuestions().size(); i++) {
+            ArrayList<Question> q = test.getListOfQuestions();
+            HashMap<Integer, Answer> answ = q.get(i).getAnswers();
+            for (Map.Entry<Integer, Answer> es : answ.entrySet()) {
+                if (es.getValue().isIsTrue()) {
                     countOfRightAnswers++;
                 }
             }
