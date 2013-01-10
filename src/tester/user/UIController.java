@@ -24,6 +24,7 @@ public class UIController implements StartTestListener {
     private Test currentOpenTest;
     private HashMap<Integer, List<Integer>> userAnswers;
     private LinkedList<Question> questions;
+    private LinkedList<Question> initQuestions;
     private double testResult;
     private int currTime;
     private int minutes;
@@ -57,7 +58,7 @@ public class UIController implements StartTestListener {
         }
         timer.cancel();
         AnswerAnalistor analisator = new AnswerAnalistor();
-        testResult = analisator.calculateResult(userAnswers, currentOpenTest);
+        testResult = analisator.calculateResult(userAnswers, initQuestions);
     }
 
     @Override
@@ -69,11 +70,13 @@ public class UIController implements StartTestListener {
 
         Question q = null;
         ArrayList<Question> list = new ArrayList<Question>();
+        initQuestions = new LinkedList<Question>();
         list.addAll(currentOpenTest.getListOfQuestions());
-        for (int i = 0; i <= list.size(); i++) {
+        for (int i = 0; i < currentOpenTest.getQuestionToUserCount(); i++) {
             q = list.remove(new Random().nextInt(list.size()));
             questions.add(i, q);
         }
+        initQuestions.addAll(questions);
         this.startTimer();
         currentQuestion = questions.removeLast();
         return currentQuestion;

@@ -5,10 +5,7 @@ import tester.creator.Question;
 import tester.creator.Test;
 
 import java.lang.Integer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,9 +20,8 @@ public class AnswerAnalistor {
     private int countOfUserRightAnswers;
     private int countOfUserWrongAnswers;
 
-    private void findCountOfUserRightAnwers(HashMap<Integer, List<Integer>> answers, Test test) {
+    private void findCountOfUserRightAnwers(HashMap<Integer, List<Integer>> answers, LinkedList<Question> lQ) {
         countOfUserRightAnswers = 0;
-        ArrayList<Question> lQ = test.getListOfQuestions();
         HashMap<Integer, Question> hQ = new HashMap<Integer, Question>();
         for(Question q : lQ){
             hQ.put(q.getId(), q);
@@ -44,9 +40,8 @@ public class AnswerAnalistor {
         }
     }
 
-    private void findCountOfRightAnswers(Test test) {
+    private void findCountOfRightAnswers(LinkedList<Question> q) {
         countOfRightAnswers = 0;
-        ArrayList<Question> q = test.getListOfQuestions();
         for (int i = 0; i < q.size(); i++) {
             HashMap<Integer, Answer> answ = q.get(i).getAnswers();
             for (Map.Entry<Integer, Answer> es : answ.entrySet()) {
@@ -57,15 +52,10 @@ public class AnswerAnalistor {
         }
     }
 
-    /**
-     *
-     * @param answers - answers, that user gives in test
-     * @param test - test, that user is goes
-     * @return
-     */
-    public double calculateResult(HashMap<Integer, List<Integer>> answers, Test test) {
-        findCountOfRightAnswers(test);
-        findCountOfUserRightAnwers(answers, test);
+
+    public double calculateResult(HashMap<Integer, List<Integer>> answers, LinkedList<Question> q) {
+        findCountOfRightAnswers(q);
+        findCountOfUserRightAnwers(answers, q);
         return ((countOfUserRightAnswers - countOfUserWrongAnswers) * 100)/countOfRightAnswers;
     }
 }
