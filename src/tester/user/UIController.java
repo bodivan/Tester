@@ -60,6 +60,7 @@ public class UIController implements StartTestListener {
     @Override
     public Question startTest(String testFileName, String userInformation) {
         openTest(testFileName);
+        userAnswers = new HashMap<Integer, Integer>();
         questions = new LinkedList<Question>();
         Question q = null;
         for (int i = 0; i <= currentOpenTest.getListOfQuestions().size(); i++) {
