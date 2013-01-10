@@ -34,11 +34,12 @@ public class UIController implements Serializable {
         return currentOpenTest;
     }
 
-    public void saveAsTest(String fileNameToSave, Test test) {
+    public void saveAsTest(String fileNameToSave, String fileName, Test test) {
         this.fileNameToSave = fileNameToSave;
         ObjectOutputStream o = null;
         try {
             o = new ObjectOutputStream(new FileOutputStream(fileNameToSave));
+            test.setTestName(fileName);
             o.writeObject(test);
             o.close();
         } catch (IOException ex) {
@@ -84,12 +85,12 @@ public class UIController implements Serializable {
         Test test = new Test();
         test.setTestName(testFileName);
         test.setCursor(0);
-        test.setTestTimeInMinutes(0);
-        test.setTotalQuestionsCount(0);
-        test.setQuestionToUserCount(0);
+        test.setTestTimeInMinutes(1);
+        test.setTotalQuestionsCount(0);       
         test.setListOfQuestions(new ArrayList<Question>());
         setCurrentOpenTest(test);
         addQuestion();
+        test.setQuestionToUserCount(1);
         return currentOpenTest;
     }
 

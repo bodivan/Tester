@@ -140,7 +140,7 @@ public class UITestGenerator extends javax.swing.JFrame {
 
         jLabel2.setText("Кількість питань для тесту:");
 
-        questionToUser.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        questionToUser.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 
         jLabel3.setText("Загальна кількість питань:");
 
@@ -586,8 +586,11 @@ private void saveAsTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     fchooser.setCurrentDirectory(new File("."));
     int returnVal = fchooser.showSaveDialog(this);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
-        String fileName = fchooser.getSelectedFile().getAbsolutePath();
-        controller.saveAsTest(fileName, getTestFromUI());
+        File f = fchooser.getSelectedFile();
+        String fullFileName = f.getAbsolutePath();
+        String fileName = f.getName();
+        this.setTitle("Генератор тестів: " + fileName);
+        controller.saveAsTest(fullFileName, fileName, getTestFromUI());
     }
 }//GEN-LAST:event_saveAsTestActionPerformed
 
@@ -598,7 +601,8 @@ private void openTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     fchooser.setCurrentDirectory(new File("."));
     int returnVal = fchooser.showOpenDialog(this);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
-        String fileName = fchooser.getSelectedFile().getAbsolutePath();
+        File f = fchooser.getSelectedFile();
+        String fileName = f.getAbsolutePath();
         Test test = controller.openTest(fileName);
         updateUIFromTest(test);
         questionPanel.setVisible(true);

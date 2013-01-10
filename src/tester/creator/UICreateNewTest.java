@@ -49,7 +49,6 @@ public class UICreateNewTest extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Створити новий тест");
         setResizable(false);
 
         jLabel1.setText("Ім'я тесту:");

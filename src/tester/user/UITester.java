@@ -150,6 +150,7 @@ public class UITester extends javax.swing.JFrame {
         openMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Тестер");
         setMinimumSize(new java.awt.Dimension(506, 570));
 
         jPanel1.setAlignmentX(0.0F);
