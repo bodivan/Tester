@@ -19,18 +19,20 @@ import tester.creator.listeners.ICreateNewTestListener;
 public class UICreateNewTest extends javax.swing.JFrame {
 
     private ICreateNewTestListener listener;
-    
+
     public UICreateNewTest(ICreateNewTestListener listener) {
         this.listener = listener;
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
-    
+
     public UICreateNewTest(ICreateNewTestListener listener, String labelText) {
         this.listener = listener;
         initComponents();
         jLabel1.setText(labelText);
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
     }
 
     /** This method is called from within the constructor to
@@ -90,11 +92,11 @@ public class UICreateNewTest extends javax.swing.JFrame {
 
 private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
     String name = testName.getText();
-    if(name != null) {
+    if (name != null) {
         this.dispose();
         listener.testCreated(name);
     }
-    
+
 }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
