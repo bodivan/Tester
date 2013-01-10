@@ -17,7 +17,7 @@ public class AnswerAnalistor {
     public int findCountOfUserRightAnwers(HashMap<Integer, Integer> answers, Test test) {
         int countOfUserRightAnswers = 0;
         for (int i=0; i<=answers.size(); i++) {
-            if (test.getMapOfQuestions().get(i).getAnswers().get(answers.get(i)).isIsTrue()) {
+            if (test.getListOfQuestions().get(i).getAnswers().get(answers.get(i)).isIsTrue()) {
                 countOfUserRightAnswers++;
             }
         }
@@ -26,9 +26,9 @@ public class AnswerAnalistor {
 
     private int findCountOfRightAnswers(Test test) {
         int countOfRightAnswers = 0;
-        for (int j = 0; j <= test.getMapOfQuestions().size(); j++) {
-            for (int h = 0; h <= test.getMapOfQuestions().get(j).getAnswers().size(); h++) {
-                if (test.getMapOfQuestions().get(j).getAnswers().get(h).isIsTrue()) {
+        for (int j = 0; j <= test.getListOfQuestions().size(); j++) {
+            for (int h = 0; h <= test.getListOfQuestions().get(j).getAnswers().size(); h++) {
+                if (test.getListOfQuestions().get(j).getAnswers().get(h).isIsTrue()) {
                     countOfRightAnswers++;
                 }
             }
