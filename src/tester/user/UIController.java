@@ -84,8 +84,9 @@ public class UIController implements StartTestListener {
         if (questions.size() == 0) {
             stopTest();
             testTimer.stopTest(userInformation + ": " + testResult);
+            currentQuestion = questions.removeLast();
+            return null;
         }
-        currentQuestion = questions.removeLast();
         return currentQuestion;
     }
 

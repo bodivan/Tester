@@ -13,11 +13,8 @@ package tester.user;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.*;
+
 import tester.creator.Answer;
 import tester.creator.Question;
 import tester.creator.Test;
@@ -58,22 +55,18 @@ public class UI extends javax.swing.JFrame {
         answCheckBox.add(5, this.jCheckBox6);
         answCheckBox.add(6, this.jCheckBox7);
         answCheckBox.add(7, this.jCheckBox8);
-        jPanel1.setVisible(false);
+        testContainer.setVisible(false);
         controller = new UIController();
         controller.setTestTimer(new TestTimer() {
 
             @Override
-            public void stopTest(double result) {
-                JDialog resultDialog = new JDialog(new JFrame(), "Результат", true);
-                resultDialog.setSize(240, 130);
-                resultDialog.setLocationRelativeTo(null);
-                resultDialog.setResizable(false);
-
-                JTextArea aboutTextArea = new JTextArea();
-                aboutTextArea.setEditable(false);
-                aboutTextArea.setText("Результат: " + result);
-                resultDialog.add(aboutTextArea);
-                resultDialog.setVisible(true);
+            public void stopTest(String result) {
+                testContainer.setVisible(false);
+                JOptionPane pane= new JOptionPane();
+                    switch(pane.showConfirmDialog(new JFrame(), result, "Результат", JOptionPane.DEFAULT_OPTION)){
+                        case 0:
+                        case 1:
+                    }
             }
 
             @Override
@@ -94,7 +87,7 @@ public class UI extends javax.swing.JFrame {
     private void initComponents() {
 
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        jPanel2 = new javax.swing.JPanel();
+        testContainer = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -334,24 +327,24 @@ public class UI extends javax.swing.JFrame {
         questionTA.setBackground(new java.awt.Color(240, 240, 240));
         questionTA.setColumns(20);
         questionTA.setEditable(false);
-        questionTA.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        questionTA.setFont(new java.awt.Font("Arial", 1, 12));
         questionTA.setLineWrap(true);
         questionTA.setRows(5);
         jScrollPane1.setViewportView(questionTA);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout testContainerLayout = new javax.swing.GroupLayout(testContainer);
+        testContainer.setLayout(testContainerLayout);
+        testContainerLayout.setHorizontalGroup(
+            testContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(testContainerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(testContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        testContainerLayout.setVerticalGroup(
+            testContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(testContainerLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -379,7 +372,7 @@ public class UI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(testContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -387,7 +380,7 @@ public class UI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(542, 542, 542)
                 .addComponent(filler1, javax.swing.GroupLayout.DEFAULT_SIZE, 1, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(testContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -412,6 +405,7 @@ private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
         @Override
         public void testCreated(String userInfo) {
+            testContainer.setVisible(true);
             Question q = controller.startTest(fileName, userInfo);
             // updateUIFromTest(test);
             jPanel1.setVisible(true);
@@ -434,16 +428,18 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_okButtonActionPerformed
 
     private void setQuestion(Question q) {
-        questionTA.setText(q.getQuestion());
-        HashMap<Integer, Answer> answ = q.getAnswers();
-        for (int i = 0; i < answTextField.size(); i++) {
-            Answer a = answ.get(i);
-            if (a != null) {
-                answTextField.get(i).setVisible(true);
-                answTextField.get(i).setText(a.getAnswer());
-            } else {
-                answTextField.get(i).setVisible(false);
-                answTextField.get(i).setText("");
+        if(q != null){
+            questionTA.setText(q.getQuestion());
+            HashMap<Integer, Answer> answ = q.getAnswers();
+            for (int i = 0; i < answTextField.size(); i++) {
+                Answer a = answ.get(i);
+                if (a != null) {
+                    answTextField.get(i).setVisible(true);
+                    answTextField.get(i).setText(a.getAnswer());
+                } else {
+                    answTextField.get(i).setVisible(false);
+                    answTextField.get(i).setText("");
+                }
             }
         }
     }
@@ -497,7 +493,6 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -522,6 +517,7 @@ private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JTextArea questionTA;
     private javax.swing.JButton skipButton;
+    private javax.swing.JPanel testContainer;
     private javax.swing.JLabel timeRemainingLabel;
     // End of variables declaration//GEN-END:variables
 }
