@@ -18,8 +18,12 @@ import java.util.Map;
  */
 public class AnswerAnalistor {
 
-    public int findCountOfUserRightAnwers(HashMap<Integer, Integer> answers, Test test) {
-        int countOfUserRightAnswers = 0;
+    private int countOfRightAnswers;
+    private int countOfUserRightAnswers;
+    private int countOfUserWrongAnswers;
+
+    private void findCountOfUserRightAnwers(HashMap<Integer, Integer> answers, Test test) {
+        countOfUserRightAnswers = 0;
         ArrayList<Question> lQ = test.getListOfQuestions();
         HashMap<Integer, Question> hQ = new HashMap<Integer, Question>();
         for(Question q : lQ){
@@ -29,15 +33,16 @@ public class AnswerAnalistor {
             Question q = hQ.get(es.getKey());
             if (q.getAnswers().get(es.getValue()).isIsTrue()) {
                 countOfUserRightAnswers++;
+            } else {
+                countOfUserWrongAnswers++;
             }
         }
-        return countOfUserRightAnswers;
     }
 
-    private int findCountOfRightAnswers(Test test) {
-        int countOfRightAnswers = 0;
-        for (int i = 0; i < test.getListOfQuestions().size(); i++) {
-            ArrayList<Question> q = test.getListOfQuestions();
+    private void findCountOfRightAnswers(Test test) {
+        countOfRightAnswers = 0;
+        ArrayList<Question> q = test.getListOfQuestions();
+        for (int i = 0; i < q.size(); i++) {
             HashMap<Integer, Answer> answ = q.get(i).getAnswers();
             for (Map.Entry<Integer, Answer> es : answ.entrySet()) {
                 if (es.getValue().isIsTrue()) {
@@ -45,7 +50,6 @@ public class AnswerAnalistor {
                 }
             }
         }
-        return countOfRightAnswers;
     }
 
     /**
@@ -55,6 +59,8 @@ public class AnswerAnalistor {
      * @return
      */
     public double calculateResult(HashMap<Integer, Integer> answers, Test test) {
-        return (findCountOfUserRightAnwers(answers, test) * 100)/findCountOfRightAnswers(test);
+        findCountOfRightAnswers(test);
+        findCountOfUserRightAnwers(answers, test);
+        return ((countOfUserRightAnswers - countOfUserWrongAnswers) * 100)/countOfRightAnswers;
     }
 }
